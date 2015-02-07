@@ -66,12 +66,23 @@ namespace Articulate.Controllers
                 return new RedirectToUmbracoPageResult(model.Content, UmbracoContext);
             }
 
+
+            // Testing
+            //UrlRewritingNet.Web.RegExRewriteRule rule = new UrlRewritingNet.Web.RegExRewriteRule();
+            //rule.VirtualUrl = "^~/blog/page/(.*)";
+            //rule.RewriteUrlParameter = UrlRewritingNet.Web.RewriteUrlParameterOption.ExcludeFromClientQueryString;
+            //rule.DestinationUrl = "~/blog?p=$1";
+            //rule.IgnoreCase = true;
+            //UrlRewritingNet.Web.UrlRewriting.AddRewriteRule("Articulate_Paging", rule);
+
+          
+
             var pager = new PagerModel(
                 pageSize,
                 p.Value - 1,
                 totalPages,
-                totalPages > p ? model.Content.Url.EnsureEndsWith('?') + "p=" + (p + 1) : null,
-                p > 1 ? model.Content.Url.EnsureEndsWith('?') + "p=" + (p - 1) : null);
+                totalPages > p ? model.Content.Url.EnsureEndsWith('/') + "page/" + (p + 1) : null,
+                p > 1 ? model.Content.Url.EnsureEndsWith('/') + "page/" + (p - 1) : null);
 
             var listModel = new ListModel(listNode, pager);
             return View(PathHelper.GetThemeViewPath(listModel, "List"), listModel);

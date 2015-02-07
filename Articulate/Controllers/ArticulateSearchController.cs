@@ -123,8 +123,8 @@ namespace Articulate.Controllers
                 pageSize,
                 p.Value - 1,
                 totalPages,
-                totalPages > p ? model.Content.Url.EnsureEndsWith('?') + "term=" + term + "&p=" + (p + 1) : null,
-                p > 1 ? model.Content.Url.EnsureEndsWith('?') + "term=" + term + "&p=" + (p - 1) : null);
+                totalPages > p ? model.Content.Url.EnsureEndsWith('/') + term + "/" + (p + 1) : null,
+                p > 1 ? model.Content.Url.EnsureEndsWith('/') + term + "/" + (p - 1) : null);
 
             var listModel = new ListModel(tagPage, searchResult, pager);
 

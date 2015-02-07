@@ -18,7 +18,14 @@ namespace Articulate.Models
             Posts = posts;
             TagName = tagName;
 
-            TagUrl = tagUrl.SafeEncodeUrlSegments().EnsureStartsWith('/');
+            if (Umbraco.Core.Configuration.UmbracoConfig.For.UmbracoSettings().RequestHandler.UseDomainPrefixes)
+            {
+                TagUrl = tagUrl.SafeEncodeUrlSegments();
+            }
+            else
+            {
+                TagUrl = tagUrl.SafeEncodeUrlSegments().EnsureStartsWith('/');
+            }
         }
 
         public IEnumerable<PostModel> Posts { get; private set; }

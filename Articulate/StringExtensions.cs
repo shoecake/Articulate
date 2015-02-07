@@ -9,13 +9,25 @@ namespace Articulate
     {
         public static string SafeEncodeUrlSegments(this string urlPath)
         {
-            return string.Join("/",
-                urlPath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries)
+
+
+            if (urlPath.StartsWith("http://") | urlPath.StartsWith("https://"))
+            {
+                Uri Url = new Uri(urlPath, UriKind.RelativeOrAbsolute);
+                return Url.Scheme + "://" + Url.Host + Url.AbsolutePath.Replace('.', '-');
+            }
+            else
+            {
+                return string.Join("/",
+                urlPath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => HttpUtility.UrlEncode(x).Replace("+", "%20"))
                     .WhereNotNull()
                     //we are not supporting dots in our URLs it's just too difficult to
                     // support across the board with all the different config options
                     .Select(x => x.Replace('.', '-')));
+            }
+
+
         }
     }
 }
